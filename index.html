@@ -5,302 +5,271 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gary Anderson</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=VT323&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
-
-    :root {
-      --green: #39ff14;
-      --amber: #ffb700;
-      --dim: #1a1a1a;
-      --bg: #0d0d0d;
-      --grid: rgba(57, 255, 20, 0.04);
-    }
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html { scroll-behavior: smooth; }
+    :root {
+      --text: #111;
+      --muted: #888;
+      --border: #e5e5e5;
+      --bg: #fff;
+      --accent: #111;
+    }
+
+    html { font-size: 16px; }
 
     body {
+      font-family: 'Inter', -apple-system, sans-serif;
       background: var(--bg);
-      color: var(--green);
-      font-family: 'Space Mono', monospace;
-      min-height: 100vh;
-      overflow-x: hidden;
-      background-image:
-        linear-gradient(var(--grid) 1px, transparent 1px),
-        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-      background-size: 40px 40px;
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* scanlines overlay */
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background: repeating-linear-gradient(
-        to bottom,
-        transparent,
-        transparent 2px,
-        rgba(0,0,0,0.15) 2px,
-        rgba(0,0,0,0.15) 4px
-      );
-      z-index: 100;
-    }
-
-    /* ── HEADER ── */
-    header {
-      max-width: 860px;
+    /* ── LAYOUT ── */
+    .container {
+      max-width: 720px;
       margin: 0 auto;
-      padding: 72px 24px 0;
+      padding: 0 32px;
     }
 
-    .prompt-line {
-      font-family: 'VT323', monospace;
-      font-size: 1.1rem;
-      color: rgba(57,255,20,0.45);
-      letter-spacing: 0.05em;
-      margin-bottom: 8px;
+    /* ── NAV ── */
+    nav {
+      padding: 40px 0 0;
     }
-
-    h1 {
-      font-family: 'VT323', monospace;
-      font-size: clamp(3.5rem, 10vw, 7rem);
-      line-height: 1;
-      letter-spacing: 0.02em;
-      color: var(--green);
-      text-shadow: 0 0 20px rgba(57,255,20,0.5), 0 0 60px rgba(57,255,20,0.2);
+    nav .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
     }
+    .nav-name {
+      font-size: 0.875rem;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+    }
+    .nav-links {
+      display: flex;
+      gap: 24px;
+    }
+    .nav-links a {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--text); }
 
-    .subtitle {
-      margin-top: 12px;
-      font-size: 0.78rem;
-      color: var(--amber);
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
+    /* ── HERO ── */
+    .hero {
+      padding: 96px 0 72px;
+    }
+    .hero h1 {
+      font-size: clamp(2.25rem, 5vw, 3.25rem);
+      font-weight: 300;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      color: var(--text);
+      margin-bottom: 24px;
+    }
+    .hero h1 strong {
+      font-weight: 600;
+    }
+    .hero p {
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: #444;
+      max-width: 520px;
+      font-weight: 300;
     }
 
     /* ── DIVIDER ── */
-    .rule {
-      max-width: 860px;
-      margin: 40px auto;
-      padding: 0 24px;
-    }
-    .rule hr {
+    .divider {
       border: none;
-      border-top: 1px solid rgba(57,255,20,0.2);
+      border-top: 1px solid var(--border);
+      margin: 0;
     }
 
-    /* ── BIO ── */
-    .bio {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 0 24px 64px;
-    }
-
-    .bio-label {
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      color: var(--amber);
-      text-transform: uppercase;
-      margin-bottom: 16px;
-    }
-    .bio-label::before { content: '> '; }
-
-    .bio p {
-      font-size: 0.92rem;
-      line-height: 1.85;
-      color: rgba(57,255,20,0.85);
-      max-width: 600px;
-    }
-
-    /* ── BLINK CURSOR ── */
-    .cursor {
-      display: inline-block;
-      width: 10px;
-      height: 1.1em;
-      background: var(--green);
-      vertical-align: text-bottom;
-      animation: blink 1.1s step-end infinite;
-      box-shadow: 0 0 8px var(--green);
-    }
-    @keyframes blink { 50% { opacity: 0; } }
-
-    /* ── PROJECTS SECTION ── */
+    /* ── PROJECTS ── */
     .projects {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 0 24px 80px;
+      padding: 64px 0 80px;
     }
-
-    .section-label {
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      color: var(--amber);
-      text-transform: uppercase;
-      margin-bottom: 28px;
-    }
-    .section-label::before { content: '> '; }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 16px;
-    }
-
-    .card {
-      border: 1px solid rgba(57,255,20,0.2);
-      padding: 24px 20px;
-      position: relative;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      cursor: default;
-    }
-    .card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(57,255,20,0.02);
-      pointer-events: none;
-    }
-    .card:hover {
-      border-color: rgba(57,255,20,0.6);
-      box-shadow: 0 0 24px rgba(57,255,20,0.1), inset 0 0 24px rgba(57,255,20,0.03);
-    }
-
-    .card-id {
-      font-family: 'VT323', monospace;
-      font-size: 2rem;
-      color: rgba(57,255,20,0.2);
-      position: absolute;
-      top: 12px;
-      right: 16px;
-    }
-
-    .card-tag {
-      font-size: 0.65rem;
-      letter-spacing: 0.15em;
-      color: var(--amber);
-      text-transform: uppercase;
-      margin-bottom: 10px;
-    }
-
-    .card h3 {
-      font-size: 0.95rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-      color: var(--green);
-    }
-
-    .card p {
+    .section-heading {
       font-size: 0.75rem;
-      line-height: 1.7;
-      color: rgba(57,255,20,0.6);
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 40px;
     }
 
-    .card-status {
-      margin-top: 16px;
-      font-size: 0.65rem;
-      letter-spacing: 0.12em;
-      color: rgba(255,183,0,0.5);
-      text-transform: uppercase;
+    .project-list {
+      display: flex;
+      flex-direction: column;
     }
-    .card-status.active { color: var(--green); }
-    .card-status::before { content: '● '; }
+
+    .project-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: start;
+      gap: 16px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      color: inherit;
+      transition: opacity 0.15s;
+    }
+    .project-item:first-child { border-top: 1px solid var(--border); }
+    .project-item:hover { opacity: 0.6; }
+
+    .project-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 6px;
+    }
+    .project-name {
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+    }
+    .project-tag {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: #f4f4f4;
+      padding: 3px 8px;
+      border-radius: 3px;
+    }
+    .project-desc {
+      font-size: 0.875rem;
+      color: #666;
+      line-height: 1.6;
+      font-weight: 300;
+    }
+    .project-arrow {
+      font-size: 1.1rem;
+      color: var(--muted);
+      padding-top: 2px;
+    }
+    .project-item.wip .project-arrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-family: 'Inter', sans-serif;
+    }
 
     /* ── FOOTER ── */
     footer {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 32px 24px 64px;
-      border-top: 1px solid rgba(57,255,20,0.1);
+      border-top: 1px solid var(--border);
+      padding: 32px 0 56px;
+    }
+    footer .container {
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 16px;
+      gap: 12px;
     }
-
     .footer-copy {
-      font-size: 0.7rem;
-      color: rgba(57,255,20,0.3);
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 300;
     }
-
     .footer-links {
       display: flex;
-      gap: 24px;
+      gap: 20px;
     }
-
     .footer-links a {
-      font-size: 0.75rem;
-      color: rgba(57,255,20,0.5);
+      font-size: 0.8rem;
+      color: var(--muted);
       text-decoration: none;
-      letter-spacing: 0.1em;
       transition: color 0.15s;
     }
-    .footer-links a:hover { color: var(--green); text-shadow: 0 0 8px var(--green); }
+    .footer-links a:hover { color: var(--text); }
 
-    /* ── RESPONSIVE ── */
     @media (max-width: 480px) {
-      .grid { grid-template-columns: 1fr; }
-      footer { flex-direction: column; align-items: flex-start; }
+      .container { padding: 0 20px; }
+      .hero { padding: 64px 0 48px; }
+      .project-item { grid-template-columns: 1fr; }
+      .project-arrow { display: none; }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <div class="prompt-line">~/projects $</div>
-    <h1>Gary Anderson</h1>
-    <div class="subtitle">Dev &nbsp;/&nbsp; Interactive &nbsp;/&nbsp; Creative</div>
-  </header>
-
-  <div class="rule"><hr /></div>
-
-  <section class="bio">
-    <div class="bio-label">about</div>
-    <p>
-      I build interactive experiences, experimental tools, and things that sit somewhere between code and art.
-      Curious about systems, interfaces, and what happens when software gets a little weird.
-      <span class="cursor"></span>
-    </p>
-  </section>
-
-  <section class="projects">
-    <div class="section-label">projects</div>
-    <div class="grid">
-
-      <div class="card">
-        <span class="card-id">01</span>
-        <div class="card-tag">interactive</div>
-        <h3>Project Alpha</h3>
-        <p>A generative canvas experiment — rules-based visuals that evolve over time.</p>
-        <div class="card-status active">in progress</div>
+  <nav>
+    <div class="container">
+      <span class="nav-name">Gary Anderson</span>
+      <div class="nav-links">
+        <a href="https://github.com/garyandersonnet" target="_blank" rel="noopener">GitHub</a>
+        <a href="mailto:hello@garyanderson.net">Email</a>
       </div>
-
-      <div class="card">
-        <span class="card-id">02</span>
-        <div class="card-tag">tool</div>
-        <h3>Project Beta</h3>
-        <p>A small utility for wrangling creative assets across multiple workflows.</p>
-        <div class="card-status">coming soon</div>
-      </div>
-
-      <div class="card">
-        <span class="card-id">03</span>
-        <div class="card-tag">game / experiment</div>
-        <h3>Project Gamma</h3>
-        <p>Browser-based game exploring emergent behavior in constrained environments.</p>
-        <div class="card-status">coming soon</div>
-      </div>
-
     </div>
-  </section>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Building <strong>interactive</strong><br />experiences &amp; tools.</h1>
+        <p>I'm a developer working at the intersection of code and creativity — crafting experiments, interfaces, and software that does something a little unexpected.</p>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <section class="projects">
+      <div class="container">
+        <div class="section-heading">Projects</div>
+        <div class="project-list">
+
+          <a href="#" class="project-item">
+            <div>
+              <div class="project-meta">
+                <span class="project-name">Project Alpha</span>
+                <span class="project-tag">Interactive</span>
+              </div>
+              <p class="project-desc">A generative canvas experiment — rules-based visuals that evolve in real time.</p>
+            </div>
+            <span class="project-arrow">→</span>
+          </a>
+
+          <a href="#" class="project-item">
+            <div>
+              <div class="project-meta">
+                <span class="project-name">Project Beta</span>
+                <span class="project-tag">Tool</span>
+              </div>
+              <p class="project-desc">A small utility for wrangling creative assets across multiple workflows.</p>
+            </div>
+            <span class="project-arrow">→</span>
+          </a>
+
+          <div class="project-item wip">
+            <div>
+              <div class="project-meta">
+                <span class="project-name">Project Gamma</span>
+                <span class="project-tag">Game</span>
+              </div>
+              <p class="project-desc">Browser-based game exploring emergent behavior in constrained environments.</p>
+            </div>
+            <span class="project-arrow">Soon</span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
 
   <footer>
-    <span class="footer-copy">&copy; 2026 Gary Anderson</span>
-    <nav class="footer-links">
-      <a href="https://github.com/garyandersonnet" target="_blank" rel="noopener">GitHub</a>
-      <a href="mailto:hello@garyanderson.net">Email</a>
-    </nav>
+    <div class="container">
+      <span class="footer-copy">&copy; 2026 Gary Anderson</span>
+      <nav class="footer-links">
+        <a href="https://github.com/garyandersonnet" target="_blank" rel="noopener">GitHub</a>
+        <a href="mailto:hello@garyanderson.net">Email</a>
+      </nav>
+    </div>
   </footer>
 
 </body>
